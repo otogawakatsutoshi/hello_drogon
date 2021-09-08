@@ -20,12 +20,32 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: install drogon
+    - name: install drogon dependency
       run: | 
         sudo apt install -y \
-        gcc \
         git \
+        libjsoncpp-dev \
+        uuid-dev \
+        openssl \
+        libssl-dev \
+        zlib1g-dev \
 
+    - name: install drogon framework
+      run: | 
+        git clone https://github.com/an-tao/drogon \
+        && cd drogon \
+        && git submodule update --init \
+        && mkdir build \
+        && cd build \
+        && cmake -DCMAKE_BUILD_TYPE=Release .. \
+        && make && sudo make install \
+        
+    - name: build project
+      run: | 
+        cd build \
+        && cmake .. \
+        && make \
+        
 #     - name: Configure CMake
 #       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
 #       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
