@@ -45,15 +45,16 @@ jobs:
       run: | 
         cmake .. \
         && make \
-        
-#     - name: Configure CMake
-#       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-#       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-#       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-#     - name: Build
-#       # Build your program with the given configuration
-#       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    # package project files
+    - name: compressive archive
+      run: tar cvfz hello_drogon.tar.gz ${{github.workspace}}/build/hello_drogon
+    - name: staging
+      run: mkdir staging && mv hello_drogon.tar.gz staging/
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Package
+        path: staging
 
 #     - name: Test
 #       working-directory: ${{github.workspace}}/build
