@@ -30,15 +30,15 @@ jobs:
         libssl-dev \
         zlib1g-dev \
 
-#     - name: install drogon framework
-#       run: | 
-#         git clone https://github.com/an-tao/drogon \
-#         && cd drogon \
-#         && git submodule update --init \
-#         && mkdir build \
-#         && cd build \
-#         && cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} .. \
-#         && make && sudo make install \
+    - name: install drogon framework
+      run: | 
+        git clone https://github.com/an-tao/drogon \
+        && cd drogon \
+        && git submodule update --init \
+        && mkdir build \
+        && cd build \
+        && cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} .. \
+        && make && sudo make install \
         
     - name: build project
       working-directory: ${{github.workspace}}/build
