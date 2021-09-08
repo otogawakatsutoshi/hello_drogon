@@ -37,13 +37,13 @@ jobs:
         && git submodule update --init \
         && mkdir build \
         && cd build \
-        && cmake -DCMAKE_BUILD_TYPE=Release .. \
+        && cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} .. \
         && make && sudo make install \
         
     - name: build project
+      working-directory: ${{github.workspace}}/build
       run: | 
-        cd build \
-        && cmake .. \
+        cmake .. \
         && make \
         
 #     - name: Configure CMake
