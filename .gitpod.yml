@@ -8,9 +8,10 @@ tasks:
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
-  - port: 3000
+  - port: 80
     onOpen: open-preview
 
 vscode:
   extensions:
     - ms-azuretools.vscode-docker
+    - ms-vscode.cmake-tools
