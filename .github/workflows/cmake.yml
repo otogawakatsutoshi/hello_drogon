@@ -32,7 +32,7 @@ jobs:
 
     - name: install drogon framework
       run: | 
-        git clone https://github.com/an-tao/drogon \
+        git clone https://github.com/an-tao/drogon -b v1.7.5 \
         && cd drogon \
         && git submodule update --init \
         && mkdir build \

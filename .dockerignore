@@ -1,0 +1,10 @@
+.devcontainer
+.github
+.vscode
+build
+.gitignore
+build.sh
+Dockerfile
+provision.sh
+README.md
+Vagrantfile

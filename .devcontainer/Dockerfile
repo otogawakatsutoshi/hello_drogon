@@ -4,6 +4,9 @@
 ARG VARIANT="bullseye"
 FROM mcr.microsoft.com/vscode/devcontainers/cpp:0-${VARIANT}
 
+# release version のdrogon_ctl, libaryを使う。
+ENV BUILD_TYPE=Release
+
 # [Optional] Install CMake version different from what base image has already installed. 
 # CMake reinstall choices: none, 3.21.5, 3.22.2, or versions from https://cmake.org/download/
 ARG REINSTALL_CMAKE_VERSION_FROM_SOURCE="none"
@@ -56,6 +59,15 @@ RUN apt install -y \
     doxygen \
     doxygen-doxyparse
 
+# install drogon build opitonnal dependency
+# postgresql dev for drogon build. this package dont' need runtime.
+# drogon build application
+RUN apt install -y postgresql-server-dev-all
+
+# install for header file. this package dont need to build.
+# using editor intelisence
+RUN apt install -y libboost1.74-all-dev
+
 # Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
 # build drogon
 RUN git clone https://github.com/an-tao/drogon -b v1.7.5 \
@@ -63,7 +75,7 @@ RUN git clone https://github.com/an-tao/drogon -b v1.7.5 \
     && git submodule update --init \
     && mkdir build \
     && cd build \
-    && cmake .. \
+    && cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
     && make && make install
 # 失敗の原因切り分けのため、情報として置いておく。
 # 本番作成用のコンテナなら削除すること。

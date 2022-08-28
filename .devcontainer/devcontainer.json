@@ -1,60 +1,42 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.191.1/containers/debian
-{
-	"name": "Ubuntu",
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.0/containers/go-postgres
+{	
+	"name": "Cpp & PostgreSQL",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspace",
 
-	// Set *default* container specific settings.json values on container create.
-	"settings": { 
-		"sqltools.connections": [{
-			"name": "Container database",
-			"driver": "PostgreSQL",
-			"previewLimit": 50,
-			"server": "localhost",
-			"port": 5432,
-			"database": "postgres",
-			"username": "postgres",
-			"password": "postgres"
-		}]
-	},
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				// [devcontainer cpp settings](https://code.visualstudio.com/docs/cpp/customize-default-settings-cpp)
+				"C_Cpp.default.includePath": [
+					"${default}",
+					"/usr/include",
+					"/usr/local/include"
+				],
+				"C_Cpp.default.compilerPath": "/usr/bin/gcc",
+				"C_Cpp.default.intelliSenseMode": "gcc-x64",
+				"C_Cpp.default.cppStandard": "c++17" 
+			},
 		
-	// Set *default* container specific settings.json values on container create.
-	// "settings": {
-	// 	"go.toolsManagement.checkForUpdates": "local",
-	// 	"go.useLanguageServer": true,
-	// 	"go.gopath": "/go",
-	// 	// "go.goroot": "/usr/local/go"
-	// },
-
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"ms-azuretools.vscode-docker",
-		"ms-vscode.cpptools",
-		"ms-vscode.cmake-tools",
-	],
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cmake-tools"
+			]
+		}
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	// "forwardPorts": [5432],
 
-	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
-	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "cpp version",
 
-	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
-	// "runArgs": [
-	// 	// .envファイルのファイルを読み込んでcontainerに設定。remoteEnvでその値を参照してさらに複雑なことができる
-    //     "--env-file", ".env"
-    // ], 
-	// "remoteEnv": {
-
-	// 	// timezoneを日本にする。docker特有の環境変数。
-	// 	"TZ": "Asia/Tokyo",
-	// 	// chromeを日本語設定にするために必要。
-	// 	"LANG": "ja_JP.UTF-8",
-	// 	"LANGUAGE": "ja_JP.UTF-8",
-	// 	"LC_ALL": "ja_JP.UTF-8",
-	// },
-	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
 }
