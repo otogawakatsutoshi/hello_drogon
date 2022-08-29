@@ -563,3 +563,6 @@ FodyWeavers.xsd
 .vagrant
 build/*
 !/build/.gitignore
+
+keys/*
+!/keys/.gitignore

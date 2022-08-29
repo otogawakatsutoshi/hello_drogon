@@ -60,13 +60,12 @@ RUN apt install -y \
     doxygen-doxyparse
 
 # install drogon build opitonnal dependency
-# postgresql dev for drogon build. this package dont' need runtime.
-# drogon build application
 RUN apt install -y postgresql-server-dev-all
 
 # install for header file. this package dont need to build.
 # using editor intelisence
-RUN apt install -y libboost1.74-all-dev
+RUN apt install -y \
+    libboost1.74-dev
 
 # Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
 # build drogon
@@ -77,11 +76,18 @@ RUN git clone https://github.com/an-tao/drogon -b v1.7.5 \
     && cd build \
     && cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
     && make && make install
-# 失敗の原因切り分けのため、情報として置いておく。
-# 本番作成用のコンテナなら削除すること。
-    # && cd ../../ \
-    # && rm -rf drogon
+
+# install command line parser
+RUN git clone https://github.com/p-ranav/argparse.git -b v2.6 \
+    && cd argparse \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make && make install
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN echo export PORT=8080 >> /home/vscode/.bash_profile
+RUN echo export BIND=127.0.0.1 >> /home/vscode/.bash_profile
 
 RUN updatedb

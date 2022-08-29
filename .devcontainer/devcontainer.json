@@ -18,7 +18,11 @@
 					"/usr/include",
 					"/usr/local/include"
 				],
-				"C_Cpp.default.compilerPath": "/usr/bin/gcc",
+				"defines": [
+					// 明示しないとvscode側がg++デフォルト値の201403Lと勝手に認識するため、設定。
+					"__cplusplus=201703L"
+				],
+				"C_Cpp.default.compilerPath": "/usr/bin/g++",
 				"C_Cpp.default.intelliSenseMode": "gcc-x64",
 				"C_Cpp.default.cppStandard": "c++17" 
 			},
@@ -35,7 +39,7 @@
 	// "forwardPorts": [5432],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "cpp version",
+	"postCreateCommand": "./script.sh run key_init && ./script.sh run key_local",
 
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"

@@ -27,6 +27,13 @@ RUN git clone https://github.com/an-tao/drogon -b v1.7.5 \
     && cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
     && make && make install
 
+# install command line parser
+RUN git clone https://github.com/p-ranav/argparse.git -b v2.6 \
+    && cd argparse \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make && make install
 
 # controller とかviewとか。
 COPY ./ ./
@@ -56,6 +63,6 @@ USER app
 WORKDIR /home/app
 
 # COPY
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["/usr/local/bin/hello_drogon"]

@@ -1,0 +1,46 @@
+# /bin/bash
+#
+# script for application utility
+
+# linuxでビルドするので、
+# optsもlinuxのもの前提で処理する。
+# 最初の引数をみて場合分け。
+  
+  if [ "${1}" == "run" ]; then
+    shift 
+    case $1 in
+      build)
+        cd build
+        cmake ..
+        make
+        ;;
+      http)
+        cd build
+        ./hello_drogon
+        ;;
+      https)
+        cd build
+        ./hello_drogon \
+          --keyfile ../keys/127.0.0.1-key.pem \
+          --certfile ../keys/127.0.0.1.pem
+        ;;
+      key_init)
+        mkcert --install
+        ;;
+      key_local)
+        cd keys
+        mkcert 127.0.0.1
+        ;;
+      help)
+        echo build build application.
+        echo key_init build application.
+        echo ky_local build application.
+        ;;
+      *)
+        echo "select script"
+        return 1
+        ;;
+    esac
+  else
+    echo "is not exists command."
+  fi
