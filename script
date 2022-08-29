@@ -70,12 +70,27 @@
         docker build . \
           -f Dockerfile \
           -t ${DOCKER_REGISTRY}/drogon:v1
-
         ;;
       help)
         echo build build application.
         echo key_init build application.
         echo ky_local build application.
+        ;;
+      *)
+        echo "select script"
+        return 1
+        ;;
+    esac
+  elif [ "${1}" == "minikube" ]; then
+    shift 
+    case $1 in
+      start)
+        minikube start \
+          --kubernetes-version v1.24.3 \
+          --driver docker
+        ;;
+      help)
+        echo minikube start application.
         ;;
       *)
         echo "select script"

@@ -7,4 +7,4 @@ build.sh
 Dockerfile
 provision.sh
 README.md
-Vagrantfile
+vagrant-k8s-debian
