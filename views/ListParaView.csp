@@ -1,0 +1,39 @@
+<html>
+<%c++
+// dataからunorder_mapとしてパラメータを取得
+auto para = @@.get<std::unordered_map<std::string, std::string>>("parameters");
+ 
+// 適当に変数宣言してみる
+auto name = "RightCode Inc.";
+auto date = "2020.08.01";
+%>
+<head>
+    <meta charset="UTF-8">
+    <title>[[ title ]]</title>
+</head>
+<body>
+ 
+<!-- 変数展開はどちらでも良い　-->
+<p>Hello, {% name %}</p>
+<p>Date: <%c++ $$ << date; %></p>
+ 
+<%c++ if(para.size()>0){%>
+<H1>Parameters</H1>
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>value</th>
+    </tr>
+    <!-- イテレーションループでパラメータを展開　-->
+    <%c++ for(auto iter:para){ %>
+    <tr>
+        <td>{% iter.first %}</td> 
+        <td><%c++ $$<<iter.second;%></td>
+    </tr>
+    <%c++ } // endfor%>
+</table>
+<%c++ }else{ %>
+<H1>no parameter</H1>
+<%c++ } // endif %>
+</body>
+</html>
