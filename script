@@ -6,14 +6,13 @@
 # optsもlinuxのもの前提で処理する。
 # 最初の引数をみて場合分け。
   
+  # 厳格にしておく。
+  # 設定を作成、環境を作成する処理なので。
+  set -eu
+
   if [ "${1}" == "run" ]; then
     shift 
     case $1 in
-      build)
-        cd build
-        cmake ..
-        make
-        ;;
       http)
         cd build
         ./hello_drogon
@@ -24,12 +23,54 @@
           --keyfile ../keys/127.0.0.1-key.pem \
           --certfile ../keys/127.0.0.1.pem
         ;;
+      docker_app)
+        docker run --rm -it \
+          -p 8080:8080/tcp \
+          --env BIND="0.0.0.0" \
+          --env PORT="8080" \
+          ${DOCKER_REGISTRY}/drogon:v1
+
+        ;;
       key_init)
         mkcert --install
         ;;
       key_local)
         cd keys
         mkcert 127.0.0.1
+        ;;
+      help)
+        echo build build application.
+        echo key_init build application.
+        echo ky_local build application.
+        ;;
+      *)
+        echo "select script"
+        return 1
+        ;;
+    esac
+  elif [ "${1}" == "build" ]; then
+    shift 
+    case $1 in
+      app)
+        cd build
+        cmake ..
+        make
+        ;;
+      docker_drogon)
+        # cppのバージョン
+        variant=12.2.0
+        docker build . \
+          -f Dockerfile.drogon \
+          -t ${DOCKER_REGISTRY}/drogon:v1 \
+          --build-arg VARIANT=${variant}
+
+        docker image push ${DOCKER_REGISTRY}/drogon:v1
+        ;;
+      docker_app)
+        docker build . \
+          -f Dockerfile \
+          -t ${DOCKER_REGISTRY}/drogon:v1
+
         ;;
       help)
         echo build build application.
