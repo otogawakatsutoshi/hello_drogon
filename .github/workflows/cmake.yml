@@ -1,60 +1,60 @@
-name: CMake
+# name: CMake
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
-env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+# env:
+#   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+#   BUILD_TYPE: Release
 
-jobs:
-  build:
-    # The CMake configure and build commands are platform agnostic and should work equally
-    # well on Windows or Mac.  You can convert this to a matrix build if you need
-    # cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     # The CMake configure and build commands are platform agnostic and should work equally
+#     # well on Windows or Mac.  You can convert this to a matrix build if you need
+#     # cross-platform coverage.
+#     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+#     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: install drogon dependency
-      run: | 
-        sudo apt install -y \
-        git \
-        libjsoncpp-dev \
-        uuid-dev \
-        openssl \
-        libssl-dev \
-        zlib1g-dev \
+#     steps:
+#     - uses: actions/checkout@v2
+#     - name: install drogon dependency
+#       run: | 
+#         sudo apt install -y \
+#         git \
+#         libjsoncpp-dev \
+#         uuid-dev \
+#         openssl \
+#         libssl-dev \
+#         zlib1g-dev \
 
-    - name: install drogon framework
-      run: | 
-        git clone https://github.com/an-tao/drogon -b v1.7.5 \
-        && cd drogon \
-        && git submodule update --init \
-        && mkdir build \
-        && cd build \
-        && cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} .. \
-        && make && sudo make install \
+#     - name: install drogon framework
+#       run: | 
+#         git clone https://github.com/an-tao/drogon -b v1.7.5 \
+#         && cd drogon \
+#         && git submodule update --init \
+#         && mkdir build \
+#         && cd build \
+#         && cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} .. \
+#         && make && sudo make install \
         
-    - name: build project
-      working-directory: ${{github.workspace}}/build
-      run: | 
-        cmake .. \
-        && make \
+#     - name: build project
+#       working-directory: ${{github.workspace}}/build
+#       run: | 
+#         cmake .. \
+#         && make \
 
-    # package project files
-    - name: compressive archive
-      run: tar cvfz hello_drogon.tar.gz ${{github.workspace}}/build/hello_drogon
-    - name: staging
-      run: mkdir staging && mv hello_drogon.tar.gz staging/
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Package
-        path: staging
+#     # package project files
+#     - name: compressive archive
+#       run: tar cvfz hello_drogon.tar.gz ${{github.workspace}}/build/hello_drogon
+#     - name: staging
+#       run: mkdir staging && mv hello_drogon.tar.gz staging/
+#     - uses: actions/upload-artifact@v2
+#       with:
+#         name: Package
+#         path: staging
 
 #     - name: Test
 #       working-directory: ${{github.workspace}}/build
